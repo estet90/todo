@@ -1,0 +1,11 @@
+apply plugin: "war"
+
+war {
+    archiveName = 'todo-api.war'
+}
+
+dependencies {
+	compile "org.mongodb:mongo-java-driver:$mongoDriverVersion"
+	compile "com.fasterxml.jackson.core:jackson-core:$jacksonVersion"
+	compile "com.fasterxml.jackson.core:jackson-databind:$jacksonVersion"
+}

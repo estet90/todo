@@ -6,7 +6,7 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
 import ru.kononov.todo.api.entities.TaskStatus;
-import ru.kononov.todo.api.entities.exceptions.TodoException;
+import ru.kononov.todo.api.exceptions.TodoException;
 import ru.kononov.todo.api.persistence.TaskStatusBean;
 
 @Stateless
@@ -25,7 +25,7 @@ public class TaskStatusService {
 	
 	public TaskStatus selectByCode(String code) throws TodoException {
 		TaskStatus status = new TaskStatus(code);
-		return taskStatusBean.filter(status).get(0);
+		return taskStatusBean.filter(status, null).get(0);
 	}
 	
 	public List<TaskStatus> selectAll() throws TodoException {

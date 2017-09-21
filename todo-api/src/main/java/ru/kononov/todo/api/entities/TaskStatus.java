@@ -34,9 +34,41 @@ public class TaskStatus extends BaseEntity {
 		this.code = code;
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		TaskStatus other = (TaskStatus) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
+		if (description == null) {
+			if (other.description != null)
+				return false;
+		} else if (!description.equals(other.description))
+			return false;
+		if (code == null) {
+			if (other.code != null)
+				return false;
+		} else if (!code.equals(other.code))
+			return false;
+		return true;
+	}
+
 	public static TaskStatus createStatusWithId(TaskStatus status){
 		TaskStatus newStatus = new TaskStatus();
-		newStatus.setCode(status.getCode());
+		newStatus.setId(status.getId());
 		return newStatus;
 	}
 	

@@ -1,10 +1,15 @@
 ext.log4j2Version = "2.6.2"
 ext.javaeeVersion = "7.0"
 ext.wildflyVersion = "10.1.0.Final"
-ext.hibernateVersion = "5.0.0.Final"
-ext.servletApiVersion = "3.1.0"
 ext.mongoDriverVersion = "3.5.0"
 ext.jacksonVersion = "2.9.0"
+ext.mongoDbEmbedded = "2.0.1-SNAPSHOT"
+ext.angularjsVersion = "1.6.4"
+ext.angularWebsocketVersion = "1.1.0"
+ext.bootstrapVersion = "3.3.7-1"
+ext.bootstrapDatetimepicerVersion = "4.17.47"
+ext.jqueryVersion = "3.2.1"
+ext.jqueryUiVersion = "1.12.0"
 
 group "ru.kononov.todo"
 version "1.0.0.0"
@@ -38,9 +43,6 @@ subprojects {
 	
     dependencies{
     	compileOnly "javax:javaee-api:$javaeeVersion"
-    	compile "org.apache.logging.log4j:log4j-api:$log4j2Version"
-    	compile "org.apache.logging.log4j:log4j-core:$log4j2Version"
-        testCompile "junit:junit"
     }
 
     test {

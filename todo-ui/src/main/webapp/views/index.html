@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>TODO</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<script type="text/javascript" src="webjars/angular/1.6.6/angular.min.js"></script>
+<script type="text/javascript" src="webjars/angular-websocket/1.1.0/angular-websocket.js"></script>
+<script type="text/javascript" src="webjars/jquery/3.1.0/jquery.min.js"></script>
+<script type="text/javascript" src="webjars/jquery-ui/1.12.0/jquery-ui.min.js"></script>
+<link href="webjars/bootstrap/3.3.7-1/css/bootstrap.min.css" rel="stylesheet"/>
+          
+<script type="text/javascript" src="js/index.js"></script>
+<script type="text/javascript" src="js/functions.js"></script>
+</head>
+<body ng-app="todo" class="ng-cloak">
+	<div id="newTask">
+		<form ng-submit="newTask()">
+			<div>
+				<label>
+					<span>Название</span>
+				</label>
+				<input type="text" id="taskName" ng-model="task.name" class="form-control" />
+			</div>
+			<div>
+				<label> 
+					<span>Описание</span>
+				</label>
+				<input type="text" id="taskDesciption" ng-model="task.name" class="form-control" />
+			</div>
+			<div>
+				<label>
+					<span>Срок выполнения</span> (<span>YYYY.MM.DD</span>) 
+				</label>
+				<input type="text" ng-model="task.datePlan" class="dateField"/>
+			</div>
+			<button id="btnAtpId" type="submit" disabled>Создать</button>
+		</form>
+	</div>
+	<div ng-controller="tasksController">
+		<form ng-submit="tasksList()">
+			<button id="btnAtpId" type="submit" disabled>Send Message</button>
+		</form>
+		<table>
+			<thead>
+				<tr>
+					<th>Name</th>
+					<th>code</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="item in Tasks.tasks">
+					<td>{{item.name}}</td>
+					<td>{{item.code}}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</body>
+</html>

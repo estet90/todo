@@ -6,22 +6,16 @@ import org.bson.BsonDocument;
 import org.bson.BsonDocumentWrapper;
 import org.bson.codecs.configuration.CodecRegistry;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Task extends BaseEntity{
 	
 	private TaskStatus status;
-	@JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss.SSSZ")
 	private LocalDateTime dateCreate;
-	@JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss.SSSZ")
 	private LocalDateTime dateModify;
-	@JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss.SSSZ")
 	private LocalDateTime dateComplete;
-	@JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss.SSSZ")
 	private LocalDateTime datePlan;
-	@JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss.SSSZ")
 	private LocalDateTime dateReminder;
 	
 	@Override
@@ -68,5 +62,64 @@ public class Task extends BaseEntity{
 	public void setDateReminder(LocalDateTime dateReminder) {
 		this.dateReminder = dateReminder;
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Task other = (Task) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
+		if (description == null) {
+			if (other.description != null)
+				return false;
+		} else if (!description.equals(other.description))
+			return false;
+		if (dateComplete == null) {
+			if (other.dateComplete != null)
+				return false;
+		} else if (!dateComplete.equals(other.dateComplete))
+			return false;
+		if (dateCreate == null) {
+			if (other.dateCreate != null)
+				return false;
+		} else if (!dateCreate.equals(other.dateCreate))
+			return false;
+		if (dateModify == null) {
+			if (other.dateModify != null)
+				return false;
+		} else if (!dateModify.equals(other.dateModify))
+			return false;
+		if (datePlan == null) {
+			if (other.datePlan != null)
+				return false;
+		} else if (!datePlan.equals(other.datePlan))
+			return false;
+		if (dateReminder == null) {
+			if (other.dateReminder != null)
+				return false;
+		} else if (!dateReminder.equals(other.dateReminder))
+			return false;
+		if (status == null) {
+			if (other.status != null)
+				return false;
+		} else if (!status.equals(other.status))
+			return false;
+		return true;
+	}
+	
+	
 
 }

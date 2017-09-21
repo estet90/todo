@@ -3,3 +3,13 @@ apply plugin: "war"
 war {
     archiveName = "todo-ui.war"
 }
+
+dependencies {
+	compile "org.webjars:angularjs:$angularjsVersion"
+	compile "org.webjars.bower:angular-websocket:$angularWebsocketVersion"
+	compile "org.webjars:bootstrap:$bootstrapVersion"
+	compile "org.webjars:jquery:$jqueryVersion"
+    compile "org.webjars:jquery-ui:$jqueryUiVersion"
+	compile "org.webjars:Eonasdan-bootstrap-datetimepicker:$bootstrapDatetimepicerVersion"
+    
+}

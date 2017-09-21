@@ -2,18 +2,20 @@ package ru.kononov.todo.api.persistence;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
 import org.bson.BsonDocument;
 import org.bson.BsonObjectId;
+import org.bson.BsonString;
 import org.bson.types.ObjectId;
 
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 
 import ru.kononov.todo.api.entities.BaseEntity;
-import ru.kononov.todo.api.entities.exceptions.TodoException;
+import ru.kononov.todo.api.exceptions.TodoException;
 import ru.kononov.todo.api.utils.ConfigManager;
 import ru.kononov.todo.api.utils.MongodbConnector;
 
@@ -34,7 +36,9 @@ public abstract class BaseEntityBean<T extends BaseEntity> {
 	
 	protected abstract Class<T> getClassName();
 	
-	protected abstract String getCollectionName();
+	protected String getCollectionName(){
+		return getClassName().getSimpleName();
+	}
 	
 	/**
 	 * 
@@ -102,8 +106,13 @@ public abstract class BaseEntityBean<T extends BaseEntity> {
 	 * @return
 	 * @throws TodoException 
 	 */
-	public List<T> filter(T filter) throws TodoException {
+	public List<T> filter(T filter, Map<String, Object> conditions) throws TodoException {
 		BsonDocument document = createDocument(filter);
+		if (conditions != null){
+			for (Map.Entry<String, Object> condition : conditions.entrySet()){
+				document.append(condition.getKey(), new BsonString(condition.getValue().toString()));
+			}
+		}
 		FindIterable<T> entitiesIterable = getCollection().find(document);
 		List<T> entities = new ArrayList<>(0);
 		for (T entity : entitiesIterable){

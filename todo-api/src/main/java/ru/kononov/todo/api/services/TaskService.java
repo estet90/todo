@@ -2,6 +2,7 @@ package ru.kononov.todo.api.services;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -9,7 +10,7 @@ import javax.ejb.Stateless;
 import ru.kononov.todo.api.entities.Task;
 import ru.kononov.todo.api.entities.TaskStatus;
 import ru.kononov.todo.api.entities.TaskStatus.TaskStatusCode;
-import ru.kononov.todo.api.entities.exceptions.TodoException;
+import ru.kononov.todo.api.exceptions.TodoException;
 import ru.kononov.todo.api.persistence.TaskBean;
 import ru.kononov.todo.api.persistence.TaskStatusBean;
 
@@ -22,7 +23,7 @@ public class TaskService {
 	private TaskStatusBean taskStatusBean;
 
 	public void create(Task task) throws TodoException {
-		TaskStatus statusForFilter = taskStatusBean.getStatusByCode(TaskStatusCode.NEW.name());
+		TaskStatus statusForFilter = taskStatusBean.filter(new TaskStatus(TaskStatusCode.NEW.name()), null).get(0);
 		task.setStatus(TaskStatus.createStatusWithId(statusForFilter));
 		task.setDateCreate(LocalDateTime.now());
 		task.setDateModify(LocalDateTime.now());
@@ -38,10 +39,10 @@ public class TaskService {
 	}
 
 	public List<Task> selectByStatusCode(String statusCode) throws TodoException {
-		TaskStatus statusForFilter = taskStatusBean.getStatusByCode(statusCode);
+		TaskStatus statusForFilter = taskStatusBean.filter(new TaskStatus(statusCode), null).get(0);
 		Task task = new Task();
 		task.setStatus(TaskStatus.createStatusWithId(statusForFilter));
-		return taskBean.filter(task);
+		return taskBean.filter(task, null);
 	}
 
 	public List<Task> selectByStatusId(String statusId) throws TodoException {
@@ -49,16 +50,20 @@ public class TaskService {
 		status.setId(statusId);
 		Task task = new Task();
 		task.setStatus(status);
-		return taskBean.filter(task);
+		return taskBean.filter(task, null);
 	}
 
-	public Task update(Task task) throws InstantiationException, TodoException {
+	public Task update(Task task) throws TodoException {
 		task.setDateModify(LocalDateTime.now());
 		return taskBean.update(task);
 	}
 
 	public void delete(Task task) throws TodoException {
 		taskBean.delete(task);
+	}
+	
+	public List<Task> filter(Task task, Map<String, Object> conditions) throws TodoException{
+		return taskBean.filter(task, conditions);
 	}
 
 }

@@ -11,8 +11,8 @@ import javax.enterprise.context.ApplicationScoped;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import ru.kononov.todo.api.entities.exceptions.TodoException;
-import ru.kononov.todo.api.entities.exceptions.TodoExceptionCode;
+import ru.kononov.todo.api.exceptions.TodoException;
+import ru.kononov.todo.api.exceptions.TodoExceptionCode;
 
 @ApplicationScoped
 public class ConfigManager implements Serializable{
@@ -27,11 +27,21 @@ public class ConfigManager implements Serializable{
 
 	private Properties PROPERTIES = new Properties();
 	private static final String PROPERTIES_FILE_NAME = "config.properties";
-
+	
+	public ConfigManager(){}
+	
+	ConfigManager(String configFileName) {
+		init(configFileName);
+	}
+	
 	@PostConstruct
 	private void init(){
+		init(PROPERTIES_FILE_NAME);
+	}
+	
+	private void init(String configFileName){
 		try {
-			InputStream inputStream = getClass().getClassLoader().getResourceAsStream(PROPERTIES_FILE_NAME);
+			InputStream inputStream = getClass().getClassLoader().getResourceAsStream(configFileName);
 			PROPERTIES.load(inputStream);
 		} catch (IOException e) {
 			LOGGER.error(e.getMessage(), e);

@@ -7,8 +7,6 @@ import javax.annotation.PreDestroy;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.bson.codecs.configuration.CodecRegistries;
 import org.bson.codecs.configuration.CodecRegistry;
 
@@ -19,14 +17,12 @@ import com.mongodb.ServerAddress;
 import ru.kononov.todo.api.codecs.LocalDateTimeCodec;
 import ru.kononov.todo.api.codecs.TaskCodecProvider;
 import ru.kononov.todo.api.codecs.TaskStatusCodecProvider;
-import ru.kononov.todo.api.entities.exceptions.TodoException;
+import ru.kononov.todo.api.exceptions.TodoException;
 
 @RequestScoped
 public class MongodbConnector implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-
-	private static final Logger LOGGER = LogManager.getLogger(MongodbConnector.class);
 
 	@Inject
 	private ConfigManager configManager;
@@ -43,19 +39,23 @@ public class MongodbConnector implements Serializable {
 		options = MongoClientOptions.builder().codecRegistry(codecRegistry).build();
 	}
 	
+	public MongodbConnector() {}
+	
 	@PostConstruct
 	private void connect() throws TodoException {
-		String mongoDbHost = configManager.getProperty(ConfigManager.MONGO_DB_HOST_PARAM_NAME);
-		String mongoDbPort = configManager.getProperty(ConfigManager.MONGO_DB_PORT_PARAM_NAME);
-		ServerAddress address = new ServerAddress(mongoDbHost, Integer.parseInt(mongoDbPort));
-		mongoClient = new MongoClient(address, options);
-		LOGGER.debug("connect");
+		String host = configManager.getProperty(ConfigManager.MONGO_DB_HOST_PARAM_NAME);
+		String port = configManager.getProperty(ConfigManager.MONGO_DB_PORT_PARAM_NAME);
+		connect(host, Integer.parseInt(port));
 	}
 
+	void connect(String mongoDbHost, int mongoDbPort){
+		ServerAddress address = new ServerAddress(mongoDbHost, mongoDbPort);
+		mongoClient = new MongoClient(address, options);
+	}
+	
 	@PreDestroy
-	private void disconnect() {
+	void disconnect() {
 		mongoClient.close();
-		LOGGER.debug("disconnect");
 	}
 
 	public MongoClient getMongoClient() {

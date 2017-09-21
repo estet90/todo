@@ -16,7 +16,7 @@ import javax.ws.rs.core.Response.Status;
 
 import ru.kononov.todo.api.entities.Task;
 import ru.kononov.todo.api.entities.TaskStatus;
-import ru.kononov.todo.api.entities.exceptions.TodoException;
+import ru.kononov.todo.api.exceptions.TodoException;
 import ru.kononov.todo.api.services.TaskService;
 import ru.kononov.todo.api.services.TaskStatusService;
 

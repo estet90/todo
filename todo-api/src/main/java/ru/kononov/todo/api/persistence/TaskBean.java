@@ -11,9 +11,4 @@ public class TaskBean extends BaseEntityBean<Task>{
 	protected Class<Task> getClassName() {
 		return Task.class;
 	}
-
-	@Override
-	protected String getCollectionName() {
-		return "Tasks";
-	}
 }

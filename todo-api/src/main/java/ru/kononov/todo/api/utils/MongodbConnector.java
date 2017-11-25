@@ -19,6 +19,12 @@ import ru.kononov.todo.api.codecs.TaskCodecProvider;
 import ru.kononov.todo.api.codecs.TaskStatusCodecProvider;
 import ru.kononov.todo.api.exceptions.TodoException;
 
+/**
+ * класс для управления подключением к БД
+ * 
+ * @author admin
+ *
+ */
 @RequestScoped
 public class MongodbConnector implements Serializable {
 
@@ -32,6 +38,7 @@ public class MongodbConnector implements Serializable {
 	private static CodecRegistry codecRegistry;
 	private static MongoClientOptions options; 
 
+	//инициализация кодеков для преобразования сущностей в объекты БД и обратно 
 	static {
 		codecRegistry = CodecRegistries.fromRegistries(CodecRegistries.fromCodecs(new LocalDateTimeCodec()),
 				CodecRegistries.fromProviders(new TaskCodecProvider(), new TaskStatusCodecProvider()),
@@ -41,6 +48,12 @@ public class MongodbConnector implements Serializable {
 	
 	public MongodbConnector() {}
 	
+	/**
+	 * соединение с БД с параметрами по умолчанию
+	 * происходит автоматически для каждого HTTP-запроса
+	 * 
+	 * @throws TodoException
+	 */
 	@PostConstruct
 	private void connect() throws TodoException {
 		String host = configManager.getProperty(ConfigManager.MONGO_DB_HOST_PARAM_NAME);
@@ -48,20 +61,39 @@ public class MongodbConnector implements Serializable {
 		connect(host, Integer.parseInt(port));
 	}
 
+	/**
+	 * соединение с БД с указанием параметров
+	 * 
+	 * @param mongoDbHost
+	 * @param mongoDbPort
+	 */
 	void connect(String mongoDbHost, int mongoDbPort){
 		ServerAddress address = new ServerAddress(mongoDbHost, mongoDbPort);
 		mongoClient = new MongoClient(address, options);
 	}
 	
+	/**
+	 * отсоединение от БД
+	 */
 	@PreDestroy
 	void disconnect() {
 		mongoClient.close();
 	}
 
+	/**
+	 * получение клиента для соедиенения с БД
+	 * 
+	 * @return MongoClient
+	 */
 	public MongoClient getMongoClient() {
 		return mongoClient;
 	}
 
+	/**
+	 * получение реестра кодеков
+	 * 
+	 * @return CodecRegistry
+	 */
 	public static CodecRegistry getCodecRegistry() {
 		return codecRegistry;
 	}

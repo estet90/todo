@@ -4,6 +4,12 @@ import javax.ejb.Stateless;
 
 import ru.kononov.todo.api.entities.Task;
 
+/**
+ * класс для работы с коллекцией Task
+ * 
+ * @author admin
+ *
+ */
 @Stateless
 public class TaskBean extends BaseEntityBean<Task>{
 

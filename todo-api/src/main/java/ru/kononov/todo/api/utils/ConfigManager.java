@@ -14,6 +14,12 @@ import org.apache.logging.log4j.Logger;
 import ru.kononov.todo.api.exceptions.TodoException;
 import ru.kononov.todo.api.exceptions.TodoExceptionCode;
 
+/**
+ * класс для работы с конфигурационными файлами
+ * 
+ * @author admin
+ *
+ */
 @ApplicationScoped
 public class ConfigManager implements Serializable{
 
@@ -28,17 +34,32 @@ public class ConfigManager implements Serializable{
 	private Properties PROPERTIES = new Properties();
 	private static final String PROPERTIES_FILE_NAME = "config.properties";
 	
+	/**
+	 * основной конструктор без параметров
+	 */
 	public ConfigManager(){}
 	
+	/**
+	 * коструктор, используемый в юнит-тестах
+	 * 
+	 * @param configFileName
+	 */
 	ConfigManager(String configFileName) {
 		init(configFileName);
 	}
 	
+	/**
+	 * считывание параметров из файла по умолчанию
+	 */
 	@PostConstruct
 	private void init(){
 		init(PROPERTIES_FILE_NAME);
 	}
 	
+	/**
+	 * считывание параметров из указанного файла
+	 * @param configFileName
+	 */
 	private void init(String configFileName){
 		try {
 			InputStream inputStream = getClass().getClassLoader().getResourceAsStream(configFileName);
@@ -48,6 +69,13 @@ public class ConfigManager implements Serializable{
 		}
 	}
 
+	/**
+	 * получние параметра по имени
+	 * 
+	 * @param propertyName
+	 * @return String
+	 * @throws TodoException
+	 */
 	public String getProperty(String propertyName) throws TodoException{
 		String property = PROPERTIES.getProperty(propertyName);
 		if (property == null){

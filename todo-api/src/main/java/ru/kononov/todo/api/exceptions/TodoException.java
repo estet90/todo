@@ -1,6 +1,5 @@
 package ru.kononov.todo.api.exceptions;
 
-//TODO разобраться с ошибками
 public class TodoException extends Exception {
 
 	private static final long serialVersionUID = 1L;

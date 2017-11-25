@@ -6,6 +6,12 @@ import org.bson.codecs.configuration.CodecRegistry;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
+/**
+ * статус задачи
+ * 
+ * @author admin
+ *
+ */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class TaskStatus extends BaseEntity {
 

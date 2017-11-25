@@ -20,6 +20,12 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 
 import ru.kononov.todo.api.exceptions.TodoException;
 
+/**
+ * базовый класс для вебсокетов
+ * 
+ * @author admin
+ *
+ */
 public class BaseEndpoint {
 
 	protected static final Logger LOGGER = LogManager.getLogger(BaseEndpoint.class);
@@ -28,26 +34,57 @@ public class BaseEndpoint {
 	protected HttpSession httpSession; 
 	protected static Set<BaseEndpoint> endpoints = new CopyOnWriteArraySet<>();
 	
+	/**
+	 * открытие конечной точки
+	 * 
+	 * @param session
+	 * @param endpointConfig
+	 * @throws JsonProcessingException
+	 * @throws TodoException
+	 */
 	@OnOpen
 	public void onOpen(Session session, EndpointConfig endpointConfig) throws JsonProcessingException, TodoException {
 		initHttpSession(endpointConfig);
 	}
 
+	/**
+	 * закрытие конечной точки
+	 * 
+	 * @param session
+	 * @param closeReason
+	 */
 	@OnClose
 	public void onClose(Session session, CloseReason closeReason) {
 		LOGGER.info("onClose!");
 	}
 
+	/**
+	 * выполенение действия
+	 * 
+	 * @param message
+	 * @param session
+	 */
 	@OnMessage
 	public void handleMessage(String message, Session session){
 		LOGGER.info("onMessage!");
 	}
 	
+	/**
+	 * обработка ошибки
+	 * 
+	 * @param session
+	 * @param throwable
+	 */
 	@OnError
 	public void onError(Session session, Throwable throwable) {
 		LOGGER.error(throwable);
 	}
 
+	/**
+	 * отправка ответа
+	 * 
+	 * @param message
+	 */
 	protected static void broadcast(String message) {
 		endpoints.forEach(endpoint -> {
 			synchronized (endpoint) {
@@ -60,6 +97,11 @@ public class BaseEndpoint {
 		});
 	}
 	
+	/**
+	 * инициализация сессии
+	 * 
+	 * @param endpointConfig
+	 */
 	protected void initHttpSession(EndpointConfig endpointConfig){
 		httpSession = (HttpSession) endpointConfig.getUserProperties()
                 .get(HttpSession.class.getName());

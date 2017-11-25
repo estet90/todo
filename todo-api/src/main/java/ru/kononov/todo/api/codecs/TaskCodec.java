@@ -14,11 +14,22 @@ import org.bson.types.ObjectId;
 import ru.kononov.todo.api.entities.Task;
 import ru.kononov.todo.api.entities.TaskStatus;
 
+/**
+ * Task <-> Bson
+ * 
+ * @author admin
+ *
+ */
 public class TaskCodec implements Codec<Task> {
 
-	private final CodecRegistry codecRegistry;
+	private CodecRegistry codecRegistry;
 
-	public TaskCodec(final CodecRegistry codecRegistry) {
+	/**
+	 * конструктор по умолчанию, принимающий на вход реестр кодеков
+	 * 
+	 * @param codecRegistry
+	 */
+	public TaskCodec(CodecRegistry codecRegistry) {
 		this.codecRegistry = codecRegistry;
 	}
 
@@ -27,6 +38,9 @@ public class TaskCodec implements Codec<Task> {
 		return Task.class;
 	}
 
+	/**
+	 * Task -> Bson
+	 */
 	@Override
 	public void encode(BsonWriter writer, Task task, EncoderContext encoderContext) {
 
@@ -76,6 +90,10 @@ public class TaskCodec implements Codec<Task> {
 		writer.writeEndDocument();
 	}
 
+	/**
+	 * Bson -> Task
+	 * @return Task
+	 */
 	@Override
 	public Task decode(BsonReader reader, DecoderContext decoderContext) {
 		Task task = new Task();

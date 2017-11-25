@@ -4,6 +4,12 @@ import java.util.Map;
 
 import ru.kononov.todo.api.entities.BaseEntity;
 
+/**
+ * поисковый фильтр для вебсокетов
+ * 
+ * @author admin
+ *
+ */
 public class Filter {
 
 	private BaseEntity entity;

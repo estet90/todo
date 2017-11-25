@@ -9,6 +9,13 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ser.FilterProvider;
 
+/**
+ * класс для выполения преобразований сущности в JSON и обратно
+ * 
+ * @author admin
+ *
+ * @param <T>
+ */
 public class JacksonWrapper<T> {
 
 	private static final Logger LOGGER = LogManager.getLogger(JacksonWrapper.class);
@@ -17,13 +24,14 @@ public class JacksonWrapper<T> {
 	private FilterProvider filterProvider;
 
 	/**
-	 * 
+	 * конструктор по умолчанию
 	 */
 	public JacksonWrapper(){
 		this.mapper = new ObjectMapper();
 	}
 	
 	/**
+	 * конструктор с фильтром
 	 * 
 	 * @param filterProvider {@link FilterProvider} contains ignorable fields
 	 */

@@ -6,7 +6,6 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.websocket.EndpointConfig;
-import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
@@ -16,6 +15,12 @@ import ru.kononov.todo.api.entities.TaskStatus;
 import ru.kononov.todo.api.exceptions.TodoException;
 import ru.kononov.todo.api.services.TaskStatusService;
 
+/**
+ * конечная точка для работы с сущностью статус задачи
+ * 
+ * @author admin
+ *
+ */
 @Stateless
 @ServerEndpoint("/statuses")
 public class TaskStatusEndpoint extends BaseEndpoint{
@@ -23,6 +28,9 @@ public class TaskStatusEndpoint extends BaseEndpoint{
 	@EJB
 	TaskStatusService service;
 
+	/**
+	 * получение спика всех статусов
+	 */
 	@Override
 	@OnOpen
 	public void onOpen(Session session, EndpointConfig endpointConfig) {
@@ -37,12 +45,5 @@ public class TaskStatusEndpoint extends BaseEndpoint{
 			e.printStackTrace();
 		}
 	}
-
-	@Override
-	@OnMessage
-	public void handleMessage(String message, Session session) {
-		System.out.println("onMessage override!!!");
-	}
-
 	
 }

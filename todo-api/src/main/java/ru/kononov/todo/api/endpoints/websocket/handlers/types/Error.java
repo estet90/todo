@@ -2,6 +2,12 @@ package ru.kononov.todo.api.endpoints.websocket.handlers.types;
 
 import ru.kononov.todo.api.exceptions.TodoException;
 
+/**
+ * ошибка для вебсокетов
+ * 
+ * @author admin
+ *
+ */
 public class Error {
 
 	private int code;

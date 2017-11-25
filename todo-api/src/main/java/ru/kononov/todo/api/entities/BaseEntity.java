@@ -2,6 +2,12 @@ package ru.kononov.todo.api.entities;
 
 import org.bson.conversions.Bson;
 
+/**
+ * базовая сущность, содержащая общие поля
+ * 
+ * @author admin
+ *
+ */
 public abstract class BaseEntity implements Bson{
 
 	protected String id;

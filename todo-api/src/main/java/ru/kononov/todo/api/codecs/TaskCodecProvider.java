@@ -6,6 +6,12 @@ import org.bson.codecs.configuration.CodecRegistry;
 
 import ru.kononov.todo.api.entities.Task;
 
+/**
+ * класс для регистрации кодека TaskCodec
+ * 
+ * @author admin
+ *
+ */
 public class TaskCodecProvider implements CodecProvider {
 
 	@SuppressWarnings("unchecked")

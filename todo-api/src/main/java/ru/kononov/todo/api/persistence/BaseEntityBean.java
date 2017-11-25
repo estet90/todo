@@ -20,12 +20,12 @@ import ru.kononov.todo.api.utils.ConfigManager;
 import ru.kononov.todo.api.utils.MongodbConnector;
 
 /**
+ * базовый класс для работы с БД
  * 
  * @author admin
  *
  * @param <T>
  */
-//TODO сделать нормальное описание
 public abstract class BaseEntityBean<T extends BaseEntity> {
 
 	@Inject
@@ -41,6 +41,7 @@ public abstract class BaseEntityBean<T extends BaseEntity> {
 	}
 	
 	/**
+	 * создать один объхект
 	 * 
 	 * @param entity
 	 * @throws TodoException 
@@ -51,9 +52,10 @@ public abstract class BaseEntityBean<T extends BaseEntity> {
 	}
 
 	/**
+	 * выбрать один объект по id
 	 * 
 	 * @param id
-	 * @return
+	 * @return T
 	 * @throws TodoException 
 	 */
 	public T selectOne(String id) throws TodoException {
@@ -63,8 +65,9 @@ public abstract class BaseEntityBean<T extends BaseEntity> {
 	}
 
 	/**
+	 * выбрать все
 	 * 
-	 * @return
+	 * @return List<T>
 	 * @throws TodoException 
 	 */
 	public List<T> selectAll() throws TodoException {
@@ -77,10 +80,11 @@ public abstract class BaseEntityBean<T extends BaseEntity> {
 	}
 
 	/**
+	 * обновить одиин объект
 	 * 
 	 * @param entity
 	 * @param newEntity
-	 * @return
+	 * @return T
 	 * @throws TodoException 
 	 */
 	public T update(T newEntity) throws TodoException {
@@ -91,6 +95,7 @@ public abstract class BaseEntityBean<T extends BaseEntity> {
 	}
 
 	/**
+	 * удалить оин объект
 	 * 
 	 * @param entity
 	 * @throws TodoException 
@@ -101,9 +106,10 @@ public abstract class BaseEntityBean<T extends BaseEntity> {
 	}
 	
 	/**
+	 * поиск по условиям
 	 * 
 	 * @param entity
-	 * @return
+	 * @return List<T>
 	 * @throws TodoException 
 	 */
 	public List<T> filter(T filter, Map<String, Object> conditions) throws TodoException {
@@ -121,11 +127,23 @@ public abstract class BaseEntityBean<T extends BaseEntity> {
 		return entities;
 	}
 	
+	/**
+	 * получить коллекции с объектами одного типа
+	 * 
+	 * @return MongoCollection<T>
+	 * @throws TodoException
+	 */
 	protected MongoCollection<T> getCollection() throws TodoException {
 		String mongoDbName = configManager.getProperty(ConfigManager.MONGO_DB_NAME_PARAM_NAME);
 		return connector.getMongoClient().getDatabase(mongoDbName).getCollection(getCollectionName(), getClassName());
 	}
 	
+	/**
+	 * преобразовать сущность в BsonDocument для работы с БД
+	 * 
+	 * @param entity
+	 * @return BsonDocument
+	 */
 	protected BsonDocument createDocument(T entity){
 		return entity.toBsonDocument(getClassName(), MongodbConnector.getCodecRegistry());
 	}

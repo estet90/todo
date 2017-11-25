@@ -1,7 +1,5 @@
 package ru.kononov.todo.api.endpoints.rest;
 
-import java.util.List;
-
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ws.rs.Consumes;
@@ -12,13 +10,16 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
 
+import ru.kononov.todo.api.endpoints.rest.handlers.TaskControllerHandler;
 import ru.kononov.todo.api.entities.Task;
-import ru.kononov.todo.api.exceptions.TodoException;
-import ru.kononov.todo.api.services.TaskService;
-import ru.kononov.todo.api.services.TaskStatusService;
 
+/**
+ * REST-котроллер для сущности задача
+ * 
+ * @author admin
+ *
+ */
 @Stateless
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
@@ -26,28 +27,40 @@ import ru.kononov.todo.api.services.TaskStatusService;
 public class TaskController {
 	
 	@EJB
-	private TaskService taskService;
-	@EJB
-	private TaskStatusService taskStatusService;
+	private TaskControllerHandler taskControllerHandler;
 	
+	/**
+	 * получение задачи по id
+	 * 
+	 * @param id
+	 * @return Response
+	 */
 	@GET
 	@Path("/{id}")
-	public Response selectOne(@PathParam("id") String id) throws TodoException {
-		Task task = taskService.selectOne(id);
-		return Response.ok(task).status(Status.OK).build();
+	public Response selectOne(@PathParam("id") String id)  {
+		return taskControllerHandler.selectOne(id);
 	}
 	
+	/**
+	 * получение списка всех задач
+	 * 
+	 * @return Response
+	 */
 	@GET
-	public Response selectAll() throws TodoException {
-		List<Task> tasks = taskService.selectAll();
-		return Response.ok(tasks).status(Status.OK).build();
+	public Response selectAll()  {
+		return taskControllerHandler.selectAll();
 	}
 	
+	/**
+	 * создание задачи
+	 * 
+	 * @param task
+	 * @return Response
+	 */
 	@POST
 	@Path("/")
-	public Response create(Task task) throws TodoException {
-		taskService.create(task);
-		return Response.ok(task).status(Status.OK).build();
+	public Response create(Task task)  {
+		return taskControllerHandler.create(task);
 	}
 
 }

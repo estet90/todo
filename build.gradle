@@ -34,7 +34,6 @@ subprojects {
 	    jcenter()
 	}
 
-	
 	dependencyManagement {
     	imports {
         	mavenBom "org.wildfly.bom:wildfly-javaee7-with-tools:$wildflyVersion"
